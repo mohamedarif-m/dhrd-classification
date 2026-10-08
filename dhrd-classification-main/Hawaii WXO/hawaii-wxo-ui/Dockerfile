@@ -19,7 +19,9 @@ COPY apps/ ./apps/
 COPY tsconfig.base.json ./
 
 # Build the app — output lands in apps/hawaii-shell/dist/
-RUN npm run build
+# VITE_HAWAII_API_BASE is baked in at compile time; in production the
+# FastAPI server and the UI are served from the same origin, so /api is correct.
+RUN VITE_HAWAII_API_BASE=/api npm run build
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Stage 2 — Python server + built UI
