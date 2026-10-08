@@ -57,9 +57,16 @@ async def lifespan(_app: FastAPI):
 
 app = FastAPI(title="tko-agents-ui proxy", version="0.3.0", lifespan=lifespan)
 
+# In single-container production mode (STATIC_DIR set) the browser is always
+# same-origin, so no cross-origin requests occur and CORS is irrelevant.
+# We still register the middleware so it handles the explicitly configured dev
+# origin (ALLOWED_ORIGIN, default localhost:5174) without crashing.
+# allow_origins=["*"] is intentionally NOT used — we only allow the one
+# configured origin, keeping the security posture tight.
+_cors_origins = [settings.allowed_origin] if settings.allowed_origin else []
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.allowed_origin],
+    allow_origins=_cors_origins,
     allow_methods=["GET", "POST", "PATCH"],
     allow_headers=["Content-Type", "X-TKO-Client"],
     # Retry-After rides the 429; a cross-origin caller cannot read it otherwise.
