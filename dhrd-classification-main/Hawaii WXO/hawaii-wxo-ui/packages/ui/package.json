@@ -1,0 +1,12 @@
+{
+  "name": "wxo-custom-ui",
+  "version": "1.22.2",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles.css": "./src/styles.css",
+    "./form-engine": "./src/form-engine/index.ts",
+    "./app-shell": "./src/app-shell/index.ts"
+  }
+}

@@ -1,0 +1,38 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Bob IDE
+.bob/tmp/
+.bob/logs/
+.bob/cache/
+.bob/.bob-errors/
+.bob/notes/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+outputs/
+
+# Node
+node_modules/
+*.zip
+
+# Vite build output — NOT committed (Dockerfile builds it inside the container)
+dist/
+
+# Local server data (ephemeral thread store)
+"Hawaii WXO/hawaii-wxo-ui/server/.data/"
+
+# Credentials — NEVER commit
+.env
+"Hawaii WXO/hawaii-wxo-ui/server/.env"
+"Hawaii WXO/hawaii-wxo-ui/apps/hawaii-shell/.env"
+
+# Generated classification report artifacts
+data/IBM Classification Report Project/*.analysis.json
+data/IBM Classification Report Project/*Report.docx
+!data/IBM Classification Report Project/0 Template*.docx

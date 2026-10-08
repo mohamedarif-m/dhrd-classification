@@ -1,0 +1,36 @@
+# Build artifacts that don't belong in the Docker context
+
+# macOS noise
+.DS_Store
+**/.DS_Store
+
+# Git
+.git/
+.gitignore
+
+# Bob IDE
+.bob/
+.bobignore
+
+# Python runtime artifacts
+__pycache__/
+*.pyc
+*.pyo
+server/.venv/
+server/.data/
+
+# Node runtime artifacts
+node_modules/
+apps/hawaii-shell/node_modules/
+packages/ui/node_modules/
+
+# Local dev env files — credentials are injected via CE env vars at runtime
+server/.env
+.env
+
+# Test files
+server/tests/
+server/scripts/
+
+# Zip archives
+*.zip

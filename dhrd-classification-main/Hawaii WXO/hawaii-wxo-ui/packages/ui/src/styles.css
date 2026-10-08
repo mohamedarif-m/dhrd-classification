@@ -1,0 +1,11 @@
+/*
+ * The one stylesheet a host imports: "wxo-custom-ui/styles.css".
+ *
+ * The two layers keep their own source files (engine.css, shell.css) so each
+ * stays readable on its own; this file is the single import that pulls both.
+ * The build concatenates them in this order into dist/styles.css, so any
+ * cascade dependency between the layers must hold in this order too.
+ */
+
+@import './form-engine/engine.css';
+@import './app-shell/shell.css';

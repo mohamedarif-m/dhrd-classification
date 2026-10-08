@@ -1,0 +1,46 @@
+{
+  "branding": {
+    "appTitle": "Hawaii DHRD",
+    "logoUrl": null,
+    "colors": {
+      "accent":     "#0066cc",
+      "topbarBg":   "#003f6b",
+      "topbarText": "#ffffff",
+      "sidebarBg":  "#f0f6fa",
+      "sidebarText":"#1a2b3c"
+    }
+  },
+  "agents": [
+    {
+      "key": "hro-classifier",
+      "wxo_agent_name": "hro_text_extractor_agent",
+      "name": "Position Classifier",
+      "tagline": "Classify a position description against Hawaii class specifications",
+      "welcome": "Drop your **Position Description** (.docx) and **Class Specification** (.pdf) in the documents panel, then click **Classify** to begin.",
+      "thinking": {
+        "fetch_classspec_file_text":     "Reading the class specification PDF...",
+        "Untitled_Agent_2_6891og":       "Coordinating the classification pipeline...",
+        "hro_orchestrate_agent":         "Coordinating the classification pipeline...",
+        "Untitled_Agent_2_5934f4":       "Running the extraction pipeline...",
+        "hro_text_extractor_agent":      "Running the extraction pipeline...",
+        "Untitled_Agent_2_0215XU":       "Extracting duties from the position description...",
+        "hro_pd_agent":                  "Extracting duties from the position description...",
+        "Untitled_Agent_2_95756x":       "Extracting class levels from the specification...",
+        "hro_class_spec_agent":          "Extracting class levels from the specification...",
+        "Untitled_Agent_2_2288Q2":       "Generating the classification analysis...",
+        "hro_classifier_agent":          "Generating the classification analysis...",
+        "Untitled_Agent_2_5211tu":       "Writing the full classification report...",
+        "hro_report_agent":              "Writing the full classification report..."
+      },
+      "fallbackPhrases": [
+        "Analyzing the documents...",
+        "Reading the position description...",
+        "Checking the class specification...",
+        "Generating the classification analysis..."
+      ],
+      "copy": {
+        "toolError": "Something went wrong reading the documents — please re-upload and try again."
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "hawaii-wxo-ui",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev":       "npm run dev -w apps/hawaii-shell",
+    "build":     "npm run build -w apps/hawaii-shell",
+    "preview":   "npm run preview -w apps/hawaii-shell",
+    "typecheck": "npm run typecheck -w packages/ui -w apps/hawaii-shell",
+    "test":      "npm run test -w packages/ui -w apps/hawaii-shell",
+    "test:server": "cd server && .venv/bin/python -m pytest tests -q"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1"
+  }
+}

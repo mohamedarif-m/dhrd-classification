@@ -1,0 +1,783 @@
+/* Form-engine styles. Every value comes from the theme tokens (--fe-*). */
+
+.fe-root {
+  font-family: var(--fe-font-body);
+  color: var(--fe-text);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ---- form frame ---- */
+
+.fe-form-header { margin-bottom: calc(var(--fe-unit) * 2); }
+.fe-form-title { font-size: 18px; font-weight: 600; margin: 0 0 4px; }
+.fe-form-desc { color: var(--fe-text-muted); margin: 0; font-size: 13.5px; }
+
+.fe-notes {
+  background: var(--fe-card);
+  border: 1px solid var(--fe-border);
+  border-left: 3px solid var(--fe-accent);
+  border-radius: var(--fe-radius-card);
+  padding: calc(var(--fe-unit) * 1.5) calc(var(--fe-unit) * 2);
+  margin-bottom: calc(var(--fe-unit) * 2);
+}
+.fe-notes p { margin: 0; font-size: 13.5px; }
+.fe-notes p + p { margin-top: 6px; }
+
+/* Non-blocking WARNING annotations: amber, prominent, never gate an action. */
+.fe-warnings {
+  background: var(--fe-warning-bg, #fdf6e3);
+  border: 1px solid var(--fe-warning-border, #e3c56b);
+  border-left: 3px solid var(--fe-warning, #b8860b);
+  border-radius: var(--fe-radius-card);
+  padding: calc(var(--fe-unit) * 1.5) calc(var(--fe-unit) * 2);
+  margin-bottom: calc(var(--fe-unit) * 2);
+}
+.fe-warnings p { margin: 0; font-size: 13.5px; }
+.fe-warnings p + p { margin-top: 6px; }
+
+.fe-section {
+  background: var(--fe-card);
+  border: 1px solid var(--fe-border);
+  border-radius: var(--fe-radius-card);
+  padding: calc(var(--fe-unit) * 2.5);
+  margin-bottom: calc(var(--fe-unit) * 2);
+}
+.fe-section-head { margin-bottom: calc(var(--fe-unit) * 2); }
+.fe-section-title {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fe-text-muted);
+  margin: 0;
+}
+.fe-section-desc { margin: 4px 0 0; font-size: 13px; color: var(--fe-text-muted); }
+
+.fe-section-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: calc(var(--fe-unit) * 2) calc(var(--fe-unit) * 3);
+}
+.fe-section-grid > * { min-width: 0; }
+.fe-field--wide { grid-column: 1 / -1; }
+@media (max-width: 640px) {
+  .fe-section-grid { grid-template-columns: 1fr; }
+}
+
+/* ---- fields ---- */
+
+.fe-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.fe-label { font-size: 12.5px; font-weight: 500; color: var(--fe-text); }
+.fe-required { color: var(--fe-error); }
+.fe-helper { margin: 0; font-size: 12px; color: var(--fe-text-muted); }
+.fe-error { margin: 0; font-size: 12px; color: var(--fe-error); }
+.fe-fix-tag {
+  display: inline-block;
+  background: var(--fe-error);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  border-radius: 2px;
+  padding: 1px 5px;
+  margin-right: 4px;
+  vertical-align: 1px;
+}
+
+/* Display-only (Field.readOnly): OUTPUT, not input. Deliberately carries none
+   of the .fe-input chrome - no background, no border, no focus ring - so the
+   eye never reads it as something to fill in. Same vertical rhythm as an input
+   so a read-only field sitting beside an editable one still lines up. */
+.fe-readonly-value {
+  margin: 0;
+  padding: 9px 0;
+  font-size: 14px;
+  line-height: 1.35;
+  color: var(--fe-text);
+  word-break: break-word;
+}
+
+.fe-input {
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+  font-size: 14px;
+  color: var(--fe-text);
+  background: var(--fe-field-bg);
+  border: 1px solid transparent;
+  border-bottom: 1px solid var(--fe-field-border);
+  border-radius: var(--fe-radius-field) var(--fe-radius-field) 0 0;
+  padding: 9px 12px;
+  transition: border-color var(--fe-motion-fast) var(--fe-motion-easing), outline-color var(--fe-motion-fast) var(--fe-motion-easing);
+}
+.fe-input::placeholder { color: var(--fe-text-muted); }
+.fe-input:focus {
+  outline: 2px solid var(--fe-focus);
+  outline-offset: -2px;
+  border-bottom-color: transparent;
+}
+.fe-field--invalid .fe-input,
+.fe-input[aria-invalid='true'] {
+  outline: 2px solid var(--fe-error);
+  outline-offset: -2px;
+  background: var(--fe-error-bg);
+}
+.fe-textarea { resize: vertical; min-height: 84px; }
+.fe-input--date { max-width: 220px; }
+
+.fe-input-row { display: flex; align-items: center; gap: 8px; }
+.fe-suffix {
+  font-family: var(--fe-font-mono);
+  font-size: 13px;
+  color: var(--fe-text-muted);
+  white-space: nowrap;
+}
+
+.fe-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+.fe-checkbox input { accent-color: var(--fe-accent); margin-top: 2px; }
+
+.fe-multiselect { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+
+/* ---- combobox ---- */
+
+.fe-combo { position: relative; }
+.fe-combo-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  text-align: left;
+  cursor: pointer;
+}
+.fe-combo-trigger--empty span:first-child { color: var(--fe-text-muted); }
+.fe-combo-caret {
+  width: 8px; height: 8px;
+  border-right: 1.5px solid var(--fe-text-muted);
+  border-bottom: 1.5px solid var(--fe-text-muted);
+  transform: rotate(45deg) translateY(-2px);
+  flex: none;
+}
+.fe-combo-disabled { color: var(--fe-text-muted); font-size: 13px; cursor: not-allowed; }
+.fe-combo-panel {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: var(--fe-card);
+  border: 1px solid var(--fe-border);
+  border-radius: var(--fe-radius-field);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+.fe-combo-search { border-radius: 0; }
+.fe-combo-list { list-style: none; margin: 0; padding: 4px 0; max-height: 240px; overflow-y: auto; }
+.fe-combo-empty { padding: 10px 12px; color: var(--fe-text-muted); font-size: 13px; }
+.fe-combo-option {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  font: inherit;
+  font-size: 13.5px;
+  color: var(--fe-text);
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.fe-combo-option:hover { background: var(--fe-surface); }
+.fe-combo-option--selected {
+  background: var(--fe-surface);
+  box-shadow: inset 3px 0 0 var(--fe-accent);
+}
+.fe-combo-desc { font-size: 12px; color: var(--fe-text-muted); }
+.fe-combo-clear { color: var(--fe-text-muted); font-style: italic; }
+
+/* ---- hierarchy field: linked dropdowns, stacking to a drill list when narrow ---- */
+
+.fe-hierarchy {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px 16px;
+}
+.fe-hierarchy-level { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.fe-hierarchy-label { font-weight: 400; color: var(--fe-text-muted); }
+/* side-channel state copy: the levels above, the note under them */
+.fe-hierarchy-note {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: var(--fe-text-muted);
+}
+.fe-hierarchy-retry {
+  margin-left: 8px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--fe-accent);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* ---- table field ---- */
+
+.fe-table-wrap {
+  border: 1px solid var(--fe-border);
+  border-radius: var(--fe-radius-field);
+  overflow: hidden;
+}
+.fe-table-wrap--invalid { border-color: var(--fe-error); }
+.fe-table-search { border-radius: 0; }
+.fe-table-note {
+  margin: 0;
+  padding: 6px 12px;
+  font-size: 12px;
+  color: var(--fe-text-muted);
+  background: var(--fe-surface);
+  border-top: 1px solid var(--fe-border);
+}
+.fe-table-retry {
+  margin-left: 8px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--fe-accent);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.fe-table-scroll { max-height: 260px; overflow: auto; }
+.fe-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.fe-table th {
+  text-align: left;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--fe-text-muted);
+  background: var(--fe-surface);
+  padding: 8px 12px;
+  position: sticky;
+  top: 0;
+}
+.fe-table td { padding: 8px 12px; border-top: 1px solid var(--fe-border); }
+.fe-table tbody tr { cursor: pointer; }
+.fe-table tbody tr:hover { background: var(--fe-surface); }
+.fe-table-row--selected td { background: var(--fe-surface); box-shadow: inset 3px 0 0 var(--fe-accent); }
+.fe-table-row--selected td ~ td { box-shadow: none; }
+.fe-table-pick { width: 32px; }
+.fe-table-pick input { accent-color: var(--fe-accent); }
+.fe-table-empty { color: var(--fe-text-muted); text-align: center; }
+
+/* Narrow presentation of the same table data: searchable stacked list. */
+@media (max-width: 640px) {
+  .fe-table thead { display: none; }
+  .fe-table, .fe-table tbody, .fe-table tr, .fe-table td { display: block; }
+  .fe-table tr { position: relative; padding: 10px 12px 10px 40px; border-top: 1px solid var(--fe-border); }
+  .fe-table tr:first-child { border-top: none; }
+  .fe-table td { border: none; padding: 0; }
+  .fe-table td.fe-table-pick { position: absolute; left: 12px; top: 12px; width: auto; }
+  .fe-table td:nth-child(2) { font-weight: 500; }
+  .fe-table td:nth-child(n + 3) { font-size: 12.5px; color: var(--fe-text-muted); }
+  .fe-table-row--selected td { background: none; box-shadow: none; }
+  .fe-table-row--selected { background: var(--fe-surface); box-shadow: inset 3px 0 0 var(--fe-accent); }
+
+  /* A display table (selectable: false) has no pick cell, so the gutter that
+     reserves room for the radio would be 40px of nothing and the emphasis
+     rules above - which count from the pick cell - would land one column out,
+     leaving the first data column plain and the second one bold. Shift both
+     back by one: no gutter, first column is the title. */
+  .fe-table--display tr { padding-left: 12px; }
+  .fe-table--display td:nth-child(1) { font-weight: 500; }
+  .fe-table--display td:nth-child(2) { font-weight: 400; }
+  .fe-table--display td:nth-child(n + 2) { font-size: 12.5px; color: var(--fe-text-muted); }
+}
+
+/* ---- toggle + radio ---- */
+
+.fe-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+.fe-toggle input { position: absolute; opacity: 0; width: 0; height: 0; }
+.fe-toggle-track {
+  flex: none;
+  width: 34px;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--fe-field-border);
+  position: relative;
+  transition: background var(--fe-motion-fast) var(--fe-motion-easing);
+}
+.fe-toggle-track::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform var(--fe-motion-duration) var(--fe-motion-easing);
+}
+.fe-toggle input:checked + .fe-toggle-track { background: var(--fe-accent); }
+.fe-toggle input:checked + .fe-toggle-track::after { transform: translateX(16px); }
+.fe-toggle input:focus-visible + .fe-toggle-track {
+  outline: 2px solid var(--fe-focus);
+  outline-offset: 2px;
+}
+
+.fe-radio-group { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+.fe-radio-group input { accent-color: var(--fe-accent); }
+
+/* ---- file upload + download ---- */
+
+.fe-file { display: flex; flex-direction: column; gap: 8px; }
+.fe-file-drop {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px;
+  border: 1px dashed var(--fe-field-border);
+  border-radius: var(--fe-radius-field);
+  padding: 12px 14px;
+  transition: border-color var(--fe-motion-fast) var(--fe-motion-easing), background var(--fe-motion-fast) var(--fe-motion-easing);
+}
+.fe-file-drop--over { border-color: var(--fe-accent); background: var(--fe-surface); }
+.fe-file-drop--invalid { border-color: var(--fe-error); }
+.fe-file-cta {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--fe-accent);
+  font-weight: 500;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+.fe-file-cta:hover { text-decoration: underline; }
+.fe-file-hint { font-size: 12px; color: var(--fe-text-muted); }
+.fe-file-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--fe-surface);
+  border: 1px solid var(--fe-border);
+  border-radius: var(--fe-radius-field);
+  padding: 7px 10px;
+  font-size: 13px;
+  min-width: 0;
+}
+.fe-file-ext {
+  flex: none;
+  font-family: var(--fe-font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--fe-accent);
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.fe-file-name {
+  font-family: var(--fe-font-mono);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.fe-file-size { color: var(--fe-text-muted); flex: none; }
+.fe-file-actions { margin-left: auto; display: flex; gap: 12px; flex: none; }
+.fe-file-action {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: auto;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--fe-accent);
+  text-decoration: none;
+  cursor: pointer;
+}
+.fe-file-action:hover { text-decoration: underline; }
+.fe-file-action--remove { color: var(--fe-error); }
+.fe-file-chip--download { background: var(--fe-card); }
+.fe-file-chip--failed { border-color: var(--fe-error); }
+.fe-file-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  font-size: 12px;
+  color: var(--fe-text-muted);
+}
+.fe-file-status--failed { color: var(--fe-error); white-space: normal; }
+.fe-file-spinner {
+  width: 11px;
+  height: 11px;
+  border: 2px solid var(--fe-border);
+  border-top-color: var(--fe-accent);
+  border-radius: 50%;
+  animation: fe-spin 0.7s linear infinite;
+}
+@keyframes fe-spin { to { transform: rotate(360deg); } }
+
+/* ---- buttons ---- */
+
+.fe-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: calc(var(--fe-unit) * 2);
+}
+/* The failed-submit message, pinned to the LEFT of the actions row (margin
+   auto) so it sits beside the button that was just pressed - and wrapping
+   above it on a narrow shell. On a form taller than the viewport this is the
+   only error copy the user can actually see when the press fails. */
+.fe-form-error-summary {
+  margin: 0 auto 0 0;
+  font-size: 12.5px;
+  color: var(--fe-error);
+}
+.fe-linkbtn {
+  font: inherit;
+  font-size: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  font-weight: 600;
+}
+.fe-linkbtn:focus-visible { outline: 2px solid var(--fe-focus); outline-offset: 2px; }
+.fe-btn {
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  border-radius: var(--fe-radius-field);
+  padding: 9px 18px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: filter var(--fe-motion-fast) var(--fe-motion-easing);
+}
+.fe-btn:focus-visible { outline: 2px solid var(--fe-focus); outline-offset: 1px; }
+.fe-btn--primary { background: var(--fe-accent); color: var(--fe-accent-text); }
+.fe-btn--primary:hover { filter: brightness(1.06); }
+.fe-btn--ghost { background: none; border-color: var(--fe-border); color: var(--fe-text); }
+.fe-btn--ghost:hover { background: var(--fe-surface); }
+
+/* ---- review ---- */
+
+.fe-review-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: calc(var(--fe-unit) * 1.5);
+}
+.fe-review-rows { margin: 0; }
+.fe-review-row {
+  display: grid;
+  grid-template-columns: minmax(140px, 220px) 1fr;
+  gap: 16px;
+  padding: 7px 0;
+  border-top: 1px solid var(--fe-border);
+}
+.fe-review-row:first-child { border-top: none; }
+.fe-review-row dt { color: var(--fe-text-muted); font-size: 13px; }
+.fe-review-row dd { margin: 0; font-family: var(--fe-font-mono); font-size: 13px; }
+@media (max-width: 640px) {
+  .fe-review-row { grid-template-columns: 1fr; gap: 2px; }
+}
+
+/* ---- receipt card ---- */
+
+/* Same card shell as .fe-notes, with the left rule carrying the outcome:
+   success by default, muted/error when the tool reports not_created. */
+/* Plain white card (client 2026-08-04: no colored status edge). */
+.fe-receipt {
+  background: var(--fe-card);
+  border: 1px solid var(--fe-border);
+  border-radius: var(--fe-radius-card);
+  padding: calc(var(--fe-unit) * 2) calc(var(--fe-unit) * 2.5);
+}
+/* Column, not a row: the event id sits UNDER the title as a secondary line
+   rather than beside it, so a long id never competes with the headline. */
+.fe-receipt-head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+.fe-receipt-title { margin: 0; font-size: 14.5px; font-weight: 600; }
+
+/* Workday event id (2026-08-11, the JobChange_C campaign): the only reference
+   the user can quote to HR, so it is a COPY TARGET first and decoration
+   second. Hence `overflow-wrap: anywhere` and no `text-overflow: ellipsis` -
+   a 32-char hex id must wrap rather than lose its tail, because a truncated
+   id looks complete and is useless. `user-select: text` is stated outright
+   because chat shells routinely disable selection on message chrome, and this
+   line has to survive that. Colour and face are theme tokens only, so the
+   line follows the host into dark mode with no second rule. */
+.fe-receipt-wid {
+  margin: 0;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--fe-text-muted);
+  overflow-wrap: anywhere;
+  user-select: text;
+  -webkit-user-select: text;
+}
+.fe-receipt-wid-label { margin-right: 6px; }
+.fe-receipt-wid-value { font-family: var(--fe-font-mono); }
+.fe-receipt-rows { margin-top: calc(var(--fe-unit) * 1.5); }
+.fe-receipt-note {
+  margin: calc(var(--fe-unit) * 1.5) 0 0;
+  font-size: 13px;
+  color: var(--fe-text-muted);
+}
+
+/* ---- thinking state ---- */
+
+/* Bubble-less by default: dots + phrase on the background, like a message
+   being formed. Consumers position/indent it in their chat layout. */
+.fe-thinking { background: none; border: none; padding: 2px 0; }
+.fe-thinking-line { display: flex; align-items: center; gap: 10px; }
+.fe-thinking-label { font-size: 13.5px; }
+.fe-thinking-step {
+  margin-left: auto;
+  font-family: var(--fe-font-mono);
+  font-size: 12px;
+  color: var(--fe-text-muted);
+}
+.fe-thinking-dots { display: inline-flex; gap: 3px; }
+.fe-thinking-dots i {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--fe-accent);
+  animation: fe-pulse 1.2s ease-in-out infinite;
+}
+.fe-thinking-dots i:nth-child(2) { animation-delay: 0.15s; }
+.fe-thinking-dots i:nth-child(3) { animation-delay: 0.3s; }
+@keyframes fe-pulse {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 1; }
+}
+
+.fe-skeleton { margin-top: calc(var(--fe-unit) * 2); }
+.fe-skel {
+  height: 34px;
+  border-radius: var(--fe-radius-field);
+  background: var(--fe-surface);
+  animation: fe-pulse 1.6s ease-in-out infinite;
+}
+.fe-skel--title { width: 40%; height: 16px; margin-bottom: 14px; }
+.fe-skel--wide { grid-column: 1 / -1; }
+.fe-skel-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fe-thinking-dots i, .fe-skel, .fe-thinking-label { animation: none; }
+}
+
+/* ---- chat primitives ---- */
+
+.fe-chat-stream { display: flex; flex-direction: column; gap: 10px; }
+.fe-msg { display: flex; gap: 8px; animation: fe-enter var(--fe-motion-duration) var(--fe-motion-easing); }
+.fe-msg--user { justify-content: flex-end; }
+.fe-msg--system { justify-content: center; }
+.fe-msg-main { display: flex; flex-direction: column; min-width: 0; max-width: 85%; }
+.fe-msg--user .fe-msg-main { align-items: flex-end; }
+.fe-msg-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0 2px 3px;
+  font-size: 11.5px;
+  color: var(--fe-text-muted);
+}
+.fe-msg-author { font-weight: 600; }
+.fe-msg-avatar {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--fe-accent);
+  color: var(--fe-accent-text);
+  font-size: 12px;
+  font-weight: 700;
+  margin-top: 18px;
+}
+.fe-msg-caret {
+  display: inline-block;
+  width: 2px;
+  height: 13px;
+  margin-left: 3px;
+  vertical-align: -2px;
+  background: var(--fe-accent);
+  animation: fe-pulse 1s ease-in-out infinite;
+}
+.fe-msg-bubble {
+  /* The 85% cap lives on .fe-msg-main (definite width); a % cap here would
+     cyclically shrink a fit-content bubble and split short words. */
+  max-width: 100%;
+  border-radius: var(--fe-radius-card);
+  padding: 9px 13px;
+  font-size: 13.5px;
+  /* Containment without mid-word breaks: break-word only kicks in when a
+     single unbroken token exceeds the max width (giant-JSON guard); normal
+     words never split. The bubble sizes to its content up to the cap. */
+  overflow-wrap: break-word;
+  width: fit-content;
+}
+.fe-msg-bubble p { margin: 0; }
+.fe-msg-bubble p + p { margin-top: 8px; }
+.fe-msg-bubble code {
+  font-family: var(--fe-font-mono);
+  font-size: 12.5px;
+  background: rgba(0, 0, 0, 0.07);
+  border-radius: 3px;
+  padding: 1px 4px;
+}
+/* Assistant messages are bubble-less by default: plain text on the surface,
+   identity (avatar/name/time) above. Users keep a subtle bubble for contrast. */
+.fe-msg--assistant .fe-msg-bubble {
+  background: none;
+  border: none;
+  padding: 2px 0;
+  max-width: 100%;
+}
+.fe-msg--user .fe-msg-bubble {
+  background: var(--fe-accent);
+  color: var(--fe-accent-text);
+}
+.fe-msg--system .fe-msg-bubble {
+  background: none;
+  color: var(--fe-text-muted);
+  font-size: 12.5px;
+}
+
+
+/* ---- motion (the full allowed inventory; transform/opacity only) ---- */
+
+@keyframes fe-enter {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fe-soft-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+/* Form / collapsible panel arrival. */
+.fe-rise-in { animation: fe-enter var(--fe-motion-duration) var(--fe-motion-easing); }
+
+/* Gentle pulse on the rotating thinking phrase. */
+.fe-thinking-label { animation: fe-soft-pulse 2.4s var(--fe-motion-easing) infinite; }
+
+/* Errors appear instantly - never animated. */
+.fe-error, .fe-fix-tag { animation: none; transition: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fe-msg, .fe-rise-in, .fe-msg-caret,
+  .fe-toggle-track, .fe-toggle-track::after, .fe-input, .fe-btn, .fe-file-drop,
+  .fe-file-spinner {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* ---- inline error card (graceful failure rendering) ---- */
+
+.fe-error-card {
+  border: 1px solid var(--fe-border);
+  border-left: 3px solid var(--fe-error);
+  border-radius: var(--fe-radius-card);
+  background: var(--fe-card);
+  padding: calc(var(--fe-unit) * 1.5) calc(var(--fe-unit) * 2);
+  max-width: 85%;
+}
+.fe-error-card-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.fe-error-card-msg { font-size: 13.5px; }
+.fe-error-card-retry { padding: 6px 12px; font-size: 12.5px; }
+.fe-error-card-details { margin-top: 8px; }
+.fe-error-card-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-size: 12px;
+  color: var(--fe-text-muted);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.fe-error-card-raw {
+  margin: 8px 0 0;
+  max-height: 220px;
+  overflow: auto;
+  font-family: var(--fe-font-mono);
+  font-size: 11.5px;
+  background: var(--fe-surface);
+  border-radius: var(--fe-radius-field);
+  padding: 10px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ---- multiselect chips ---- */
+
+.fe-chipselect { display: flex; flex-direction: column; gap: 8px; }
+.fe-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.fe-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--fe-surface);
+  border: 1px solid var(--fe-border);
+  border-radius: 999px;
+  padding: 3px 6px 3px 10px;
+  font-size: 12.5px;
+  max-width: 100%;
+}
+.fe-chip-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 260px;
+}
+.fe-chip-remove {
+  background: none;
+  border: none;
+  padding: 0 4px;
+  font: inherit;
+  font-size: 14px;
+  line-height: 1;
+  color: var(--fe-text-muted);
+  cursor: pointer;
+  border-radius: 50%;
+}
+.fe-chip-remove:hover { color: var(--fe-error); }
